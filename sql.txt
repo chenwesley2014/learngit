@@ -1,0 +1,95 @@
+drop table t_ref_config cascade constraints;
+
+/*==============================================================*/
+/* Table: t_ref_config                                        */
+/*==============================================================*/
+create table t_ref_config 
+(
+   id                 NUMBER               not null,
+   name               VARCHAR2(256),
+   comments           VARCHAR2(1024),
+   rpt_type           VARCHAR2(256),
+   ref_way            NUMBER,
+   exec_sql           VARCHAR2(1024),
+   constraint PK_T_REF_CONFIG primary key (id)
+);
+
+comment on table t_ref_config is
+'报表刷新配置';
+
+comment on column t_ref_config.id is
+'报表ID';
+
+comment on column t_ref_config.name is
+'报表名称';
+
+comment on column t_ref_config.comments is
+'备注';
+
+comment on column t_ref_config.rpt_type is
+'报表类型';
+
+comment on column t_ref_config.ref_way is
+'1：执行存储过程
+2：执行BAT文件 刷新方式';
+
+comment on column t_ref_config.exec_sql is
+'执行脚本';
+
+
+drop table t_ref_task cascade constraints;
+
+/*==============================================================*/
+/* Table: t_ref_task                                          */
+/*==============================================================*/
+create table t_ref_task 
+(
+   id                 INTEGER              not null,
+   report_id          NUMBER               not null,
+   period             VARCHAR2(256)        not null,
+   status             INTEGER,
+   result             INTEGER,
+   start_time         DATE,
+   end_time           DATE,
+   create_time        DATE,
+   update_time        DATE,
+   error              VARCHAR2(1024),
+   constraint PK_T_REF_TASK primary key (id)
+);
+
+comment on table t_ref_task is
+'报表刷新任务';
+
+comment on column t_ref_task.id is
+'任务ID';
+
+comment on column t_ref_task.report_id is
+'报表ID';
+
+comment on column t_ref_task.period is
+'运行期间';
+
+comment on column t_ref_task.status is
+'-1：等待中
+0：运行完成
+1：运行中
+运行状态';
+
+comment on column t_ref_task.result is
+'0：失败
+1：成功运行结果';
+
+comment on column t_ref_task.start_time is
+'运行开始时间';
+
+comment on column t_ref_task.end_time is
+'运行结束时间';
+
+comment on column t_ref_task.create_time is
+'创建时间';
+
+comment on column t_ref_task.update_time is
+'更新时间';
+
+comment on column t_ref_task.error is
+'错误描述';
